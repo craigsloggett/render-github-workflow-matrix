@@ -14,7 +14,7 @@ jobs:
   release:
     name: GitHub
     # Prevent an initial run on repository creation using this template.
-    if: github.repository == 'craigsloggett-lab/composite-action-template'
+    if: github.repository == 'craigsloggett/render-github-workflow-matrix'
     runs-on: ubuntu-24.04
 
     outputs:

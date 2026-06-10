@@ -1,6 +1,6 @@
-name: My Composite Action
+name: Render GitHub Workflow Matrix
 
-description: A composite action that ...
+description: Render a GitHub Actions workflow matrix.
 
 inputs:
   my-input:
