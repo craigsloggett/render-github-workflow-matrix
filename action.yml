@@ -1,25 +1,27 @@
 name: Render GitHub Workflow Matrix
 
-description: Render a GitHub Actions workflow matrix.
+description: Renders a tool-update workflow matrix from a YAML tools list and version-source registry.
 
 inputs:
-  my-input:
-    description: This is my input, there is no other input like it.
-    required: false
-    default: The default description.
+  tools:
+    description: Tools to render, as a YAML list of entries with tool, scope, files, and optional version_source.
+    required: true
+  registry:
+    description: Version-source registry, as a YAML mapping of tool name to endpoint and jq_filter.
+    required: true
 
 outputs:
-  my-output:
-    description: The output this composite action produces.
-    value: steps.workflow-step.outputs.my-output
+  json:
+    description: The rendered matrix as a compact JSON array, with version_source resolved for every entry.
+    value: ${{ steps.render.outputs.json }}
 
 runs:
   using: composite
   steps:
-    - name: Workflow Step
-      id: workflow-step
-      run: |-
-        printf 'my-output=%s\n' "${MY_INPUT}" >> "${GITHUB_OUTPUT}"
+    - name: Render Matrix
+      id: render
+      run: ${{ github.action_path }}/src/render_github_workflow_matrix.sh
       shell: sh
       env:
-        MY_INPUT: inputs.my-input
+        INPUT_TOOLS: ${{ inputs.tools }}
+        INPUT_REGISTRY: ${{ inputs.registry }}
